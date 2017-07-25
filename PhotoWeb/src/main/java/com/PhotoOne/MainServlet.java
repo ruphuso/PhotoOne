@@ -27,8 +27,8 @@ public class MainServlet  extends HttpServlet {
         }
 
         private void process(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            String login = request.getParameter("name");
-            String name = request.getParameter("login");
+            String  name = request.getParameter("name");
+            String login = request.getParameter("login");
             String password = request.getParameter("password");
             User user = new User();
             user.setName(name);
@@ -40,8 +40,20 @@ public class MainServlet  extends HttpServlet {
                 e.printStackTrace();
             }
 
+            try {
+                Factory.getInstance().getUserDAO().getUserByName(name);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println(user.toString());
+
+            response.getWriter().println("<!DOCTYPE HTML>");
+            response.getWriter().println("<html><body><p>" + "User ID " +user.getIdUser() +" User Name "+ user.getName() + " UserLogin " + user.getLogin() + "</p></body></html>");
+
             System.out.println("name: " + name + "; login: " + login + "; password: " + password);
 
         }
+
+
     }
 
